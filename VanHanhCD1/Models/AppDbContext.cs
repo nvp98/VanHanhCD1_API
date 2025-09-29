@@ -1,4 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using VanHanhCD1.Models.PhuTro;
+using VanHanhCD1.Models.ThieuKet;
+using VanHanhCD1.Models.VeVien;
+using VanHanhCD1.Models.VoiXiMang;
 
 namespace VanHanhCD1.Models
 {
@@ -10,15 +14,83 @@ namespace VanHanhCD1.Models
         public DbSet<NhanVien> NhanViens { get; set; }
         public DbSet<Quyen> Quyens { get; set; }
         public DbSet<VH_LoVeVien> VH_LoVeVien { get; set; }
-        
-        
+        public DbSet<LBDO1VeVien> LBDO1VeViens { get; set; }
+        public DbSet<LBDO2VeVien> LBDO2VeViens { get; set; }
+
+        public DbSet<QuatHutChinh> quatHutChinhs { get; set; }
+        public DbSet<LocBuiTinhDien> locBuiTinhDiens { get; set; }
+        public DbSet<LocBuiMoiTruongPLieuBLuoc> locBuiMoiTruongPLieuBLuocs { get; set; }
+        public DbSet<LBMTMTPTrungChuyen23> locBuiMoiTruongMangThanhPhamTrungChuyen23s { get; set; }
+        //Thieu Ket
+        public DbSet<ThieuKet1> thieuKetMots { get; set; }
+        public DbSet<ThieuKet2> thieuKetHais { get; set; }
+        public DbSet<LocBuiMoiTruongDuoiMay1> locBuiMoiTruongDuoiMayMots { get; set; }
+        public DbSet<LocBuiMoiTruongDuoiMay2> locBuiMoiTruongDuoiMayHais { get; set; }
+        public DbSet<LocBuiMoiTruongMangQuang> locBuiMoiTruongMangQuangs { get; set; }
+        //Phu Tro
+        public DbSet<QuatGio1ThieuKet1> quatGioMotThieuKetMots { get; set; }
+        public DbSet<QuatGio2ThieuKet1> quatGioHaiThieuKetMots { get; set; }
+        public DbSet<QuatGio3ThieuKet2> quatGioBaThieuKetHais { get; set; }
+        public DbSet<QuatGio4ThieuKet2> quatGioBonThieuKetHais { get; set; }
+        public DbSet<TurBine1ThieuKet1> turbineMotThieuKetMots { get; set; }
+        public DbSet<Turbine2ThieuKet1> turbineHaiThieuKetMots { get; set; }
+        public DbSet<Turbine3ThieuKet2> turbineBaThieuKetHais { get; set; }
+        public DbSet<Turbine4ThieuKet2> turbineBonThieuKetHais { get; set; }
+        public DbSet<NoiHoiMatVong1> noiHoiMatVongMots { get; set; }
+        public DbSet<NoiHoiMatVong2> noiHoiMatVongHais { get; set; }
+        public DbSet<NoiHoiOngKhoiQuatGioLamMatVong1> noiHoiOngKhoiQuatGioLamMatVongMots { get; set; }
+        public DbSet<NoiHoiOngKhoiQuatGioLamMatVong2> noiHoiOngKhoiQuatGioLamMatVongHais { get; set; }
+        public DbSet<KhuKhiKhoiThieuKet1> khuKhiKhoiThieuKetMots { get; set; }
+        public DbSet<KhuKhiKhoiThieuKet2> khuKhiKhoiThieuKetHais { get; set; }
+        public DbSet<TramNuocTuanHoan> tramNuocTuanHoans { get; set; }
+        //Voi Xi Mang
+        public DbSet<LoVoiDungMot> loVoiDungMots { get; set; }
+        public DbSet<LoVoiDungHai> loVoiDungHais { get; set; }
+        public DbSet<LoVoiDungBa> loVoiDungBas { get; set; } 
+        public DbSet<LoDoMitMot> loDoMitMots { get; set; }
+        public DbSet<LoDoMitHai> loDoMitHais { get; set; }
+        public DbSet<LoVoiQuay> loVoiQuays { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<NguoiDung>().ToTable("NguoiDung");
             //modelBuilder.Entity<Quyen>().ToTable("Quyen");
             //modelBuilder.Entity<NhanVien>().ToTable("NhanVien");
             modelBuilder.Entity<VH_LoVeVien>().ToTable("VH_LoVeVien");
-
+            modelBuilder.Entity<LBDO1VeVien>().ToTable("VH_LBDO1VeVien");
+            modelBuilder.Entity<LBDO2VeVien>().ToTable("VH_LBDO2VeVien");
+            modelBuilder.Entity<QuatHutChinh>().ToTable("VH_QHCVeVien");
+            modelBuilder.Entity<LocBuiTinhDien>().ToTable("VH_LBTDVeVien");
+            modelBuilder.Entity<LocBuiMoiTruongPLieuBLuoc>().ToTable("VH_LBMT_PhoiLieuBanLuocVeVien");
+            modelBuilder.Entity<LBMTMTPTrungChuyen23>().ToTable("VH_LBMT_MTP_TramTrungChuyen23VeVien");
+            //Thieu Ket
+            modelBuilder.Entity<ThieuKet1>().ToTable("VH_ThieuKet1");
+            modelBuilder.Entity<ThieuKet2>().ToTable("VH_ThieuKet2");
+            modelBuilder.Entity<LocBuiMoiTruongDuoiMay1>().ToTable("VH_LBMT_DuoiMay1");
+            modelBuilder.Entity<LocBuiMoiTruongDuoiMay2>().ToTable("VH_LBMT_DuoiMay2");
+            modelBuilder.Entity<LocBuiMoiTruongMangQuang>().ToTable("VH_LBMT_MangQuang");
+            //Phu Tro
+            modelBuilder.Entity<QuatGio1ThieuKet1>().ToTable("VH_QG1ThieuKet1");
+            modelBuilder.Entity<QuatGio2ThieuKet1>().ToTable("VH_QG2ThieuKet1");
+            modelBuilder.Entity<QuatGio3ThieuKet2>().ToTable("VH_QG3ThieuKet2");
+            modelBuilder.Entity<QuatGio4ThieuKet2>().ToTable("VH_QG4ThieuKet2");
+            modelBuilder.Entity<TurBine1ThieuKet1>().ToTable("VH_TB1ThieuKet1");
+            modelBuilder.Entity<Turbine2ThieuKet1>().ToTable("VH_TB2ThieuKet1");
+            modelBuilder.Entity<Turbine3ThieuKet2>().ToTable("VH_TB3ThieuKet2");
+            modelBuilder.Entity<Turbine4ThieuKet2>().ToTable("VH_TB4ThieuKet2");
+            modelBuilder.Entity<NoiHoiMatVong1>().ToTable("VH_NoiHoiMatVong1ThieuKet1");
+            modelBuilder.Entity<NoiHoiMatVong2>().ToTable("VH_NoiHoiMatVong2ThieuKet2");
+            modelBuilder.Entity<NoiHoiOngKhoiQuatGioLamMatVong1>().ToTable("VH_NoiHoiOngKhoiQuatGioLamMatVong1");
+            modelBuilder.Entity<NoiHoiOngKhoiQuatGioLamMatVong2>().ToTable("VH_NoiHoiOngKhoiQuatGioLamMatVong2");
+            modelBuilder.Entity<KhuKhiKhoiThieuKet1>().ToTable("VH_KKKPhuTroThieuKet1");
+            modelBuilder.Entity<KhuKhiKhoiThieuKet2>().ToTable("VH_KKKPhuTroThieuKet2");
+            modelBuilder.Entity<TramNuocTuanHoan>().ToTable("VH_TramNuocTuanHoan");
+            // Voi Xi Mang
+            modelBuilder.Entity<LoVoiDungMot>().ToTable("VH_LoVoiDung1");
+            modelBuilder.Entity<LoVoiDungHai>().ToTable("VH_LoVoiDung2");
+            modelBuilder.Entity<LoVoiDungBa>().ToTable("VH_LoVoiDung3");
+            modelBuilder.Entity<LoDoMitMot>().ToTable("VH_LoDoLoMit1");
+            modelBuilder.Entity<LoDoMitHai>().ToTable("VH_LoDoLoMit2");
+            modelBuilder.Entity<LoVoiQuay>().ToTable("VH_LoVoiQuay");
             base.OnModelCreating(modelBuilder);
         }
 
