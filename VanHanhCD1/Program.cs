@@ -1,19 +1,46 @@
-using VanHanhCD1.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using VanHanhCD1.Exceptions;
+using VanHanhCD1.ExportExcel;
+using VanHanhCD1.Models;
+using VanHanhCD1.Repository.Interfaces;
+using VanHanhCD1.Repository.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 // EF Core
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<IVeVienRepository, VeVienRepository>();
+builder.Services.AddScoped<IThieuKetRepository, ThieuKetRepository>();
+builder.Services.AddScoped<IPhuTroRepository, PhuTroRepository>();
+builder.Services.AddScoped<IVoiXiMangRepository, VoiXiMangRepository>();
+builder.Services.AddScoped<ExportLBDO1>();
+builder.Services.AddScoped<ExportQHCVeVien>();
+builder.Services.AddScoped<ExportLBTDVeVien>();
+builder.Services.AddScoped<ExportLBMTPLieuBLuocVeVien>();
+builder.Services.AddScoped<ExportThieuKet>();
+builder.Services.AddScoped<ExportQuatGio>();
+builder.Services.AddScoped<ExportTurbine>();
+builder.Services.AddScoped<ExportNoiHoiMatVongMot>();
+builder.Services.AddScoped<ExportKhuKhiKhoi>();
+builder.Services.AddScoped<ExportVoiXiMang>();
+
+builder.Services.AddGlobalExceptionHandling();
+
+builder.Services.AddLogging(logging =>
+{
+    logging.AddConsole();
+    logging.AddDebug();
+});
+
 // CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://10.192.53.84:86")
+        policy.WithOrigins("http://localhost:5173")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
