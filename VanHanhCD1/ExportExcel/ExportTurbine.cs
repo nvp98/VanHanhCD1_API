@@ -172,7 +172,7 @@ namespace VanHanhCD1.ExportExcel
             IXLWorksheet sheet, DateTime blockStart,
             string dayFrom, string dayTo)
         {
-            var dateTimeTitle = $"Từ {dayFrom} đến {dayTo} ngày {dayTo} thánh {blockStart:MM} năm {blockStart:yyyy}";
+            var dateTimeTitle = $"Từ {dayFrom} đến {dayTo} tháng {blockStart:MM} năm {blockStart:yyyy}";
             // var title = "NHẬT KÝ VẬN HÀNH VÊ VIÊN";
             var subtitle = $"{dateTimeTitle}";
 

@@ -2,7 +2,7 @@
 
 namespace VanHanhCD1.ExportExcel
 {
-    public class ExportThieuKet
+    public class ExportTramNuocTuanHoan
     {
         private const string TemplateSheetNameOne = "Sheet1";
         private const string TemplateSheetNameTwo = "Sheet2";
@@ -10,9 +10,9 @@ namespace VanHanhCD1.ExportExcel
         private const int DefaultSymbolRow = 6;
         private const int HoursInBlock = 24;
         private const int DataStartColumn = 4;
-        private readonly ILogger<ExportThieuKet> _logger;
+        private readonly ILogger<ExportTramNuocTuanHoan> _logger;
 
-        public ExportThieuKet(ILogger<ExportThieuKet> logger)
+        public ExportTramNuocTuanHoan(ILogger<ExportTramNuocTuanHoan> logger)
         {
             _logger = logger;
         }
@@ -211,7 +211,5 @@ namespace VanHanhCD1.ExportExcel
                 }
             }
         }
-
     }
-
 }

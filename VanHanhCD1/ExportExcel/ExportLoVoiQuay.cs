@@ -2,32 +2,31 @@
 
 namespace VanHanhCD1.ExportExcel
 {
-    public class ExportThieuKet
+    public class ExportLoVoiQuay
     {
         private const string TemplateSheetNameOne = "Sheet1";
         private const string TemplateSheetNameTwo = "Sheet2";
-        private const int DefaultSymbolColumn = 3; //column D
+        private const int DefaultSymbolColumn = 4; //column E
         private const int DefaultSymbolRow = 6;
         private const int HoursInBlock = 24;
-        private const int DataStartColumn = 4;
-        private readonly ILogger<ExportThieuKet> _logger;
-
-        public ExportThieuKet(ILogger<ExportThieuKet> logger)
+        private const int DataStartColumn = 5;
+        private readonly ILogger<ExportLoVoiQuay> _logger;
+        public ExportLoVoiQuay(ILogger<ExportLoVoiQuay> logger)
         {
             _logger = logger;
         }
 
         public byte[] GenerateExcelFile<T>(
-           List<T> data,
-           string templatePath,
-           DateTime from,
-           DateTime to,
-           Func<T, DateTime> dateSelector,
-           Func<T, string> symbolSelector,
-           Func<T, double?> valueSelector,
-           Func<T, string> tagNameSelector,
-           int symbolColumn = DefaultSymbolColumn,
-           int symbolRow = DefaultSymbolRow)
+          List<T> data,
+          string templatePath,
+          DateTime from,
+          DateTime to,
+          Func<T, DateTime> dateSelector,
+          Func<T, string> symbolSelector,
+          Func<T, double?> valueSelector,
+          Func<T, string> tagNameSelector,
+          int symbolColumn = DefaultSymbolColumn,
+          int symbolRow = DefaultSymbolRow)
         {
 
 
@@ -138,10 +137,10 @@ namespace VanHanhCD1.ExportExcel
         }
 
         private static void WriteHourlyData<T>(
-            IXLWorksheet sheet, DateTime blockStart, Dictionary<string, int> rowSymbolMap,
-            Dictionary<(DateTime dateTime, int hour, string symbol), T> dataIndex,
-            Func<T, double?> valueSelector, int dateStartColumn
-            )
+           IXLWorksheet sheet, DateTime blockStart, Dictionary<string, int> rowSymbolMap,
+           Dictionary<(DateTime dateTime, int hour, string symbol), T> dataIndex,
+           Func<T, double?> valueSelector, int dateStartColumn
+           )
         {
 
             for (int i = 0; i < HoursInBlock; i++)
@@ -176,11 +175,11 @@ namespace VanHanhCD1.ExportExcel
             // var title = "NHẬT KÝ VẬN HÀNH VÊ VIÊN";
             var subtitle = $"{dateTimeTitle}";
 
-            var cellSheet = sheet.Cell("S4");
+            var cellSheet = sheet.Cell("A5");
             cellSheet.Clear(XLClearOptions.Contents);
             var richTextNgay = cellSheet.GetRichText();
             //richTextNgay.AddText(title).SetFontSize(18).SetBold().SetItalic(false);
-            richTextNgay.AddText(subtitle).SetFontSize(10).SetItalic().SetBold(false);
+            richTextNgay.AddText(subtitle).SetFontSize(13).SetItalic().SetBold(false);
 
         }
 
@@ -198,6 +197,7 @@ namespace VanHanhCD1.ExportExcel
             }
         }
 
+
         // Ẩn sheet gõc
         private static void HideOriginalSheets(XLWorkbook workbook)
         {
@@ -211,7 +211,5 @@ namespace VanHanhCD1.ExportExcel
                 }
             }
         }
-
     }
-
 }

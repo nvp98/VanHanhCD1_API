@@ -11,11 +11,13 @@ namespace VanHanhCD1.Repository.Repositories
     {
         private readonly AppDbContext _context;
         private readonly ExportThieuKet _exportThieuKet;
-      
-        public ThieuKetRepository(AppDbContext context, ExportThieuKet exportThieuKet)
+        private readonly ExportLBMT _exportLBMT;
+
+        public ThieuKetRepository(AppDbContext context, ExportThieuKet exportThieuKet, ExportLBMT exportLBMT)
         {
             _context = context;
             _exportThieuKet = exportThieuKet;
+            _exportLBMT = exportLBMT;
         }
 
         private async Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursDataAsync<T>(
@@ -180,9 +182,30 @@ namespace VanHanhCD1.Repository.Repositories
             return SearchByTimeRange(_context.locBuiMoiTruongDuoiMayMots, from, to);
         }
 
-        public Task<byte[]> ExportLocBuiMoiTruongDuoiMayMots(DateTime from, DateTime to, string path)
+        public async Task<byte[]> ExportLocBuiMoiTruongDuoiMayMots(DateTime from, DateTime to, string path)
         {
-            throw new NotImplementedException();
+            var dataInRange = await _context.locBuiMoiTruongDuoiMayMots
+              .Where(x => x.ThoiGian >= from && x.ThoiGian <= to)
+              .ToListAsync();
+
+            var grouped = dataInRange
+                .GroupBy(x => new { x.ThoiGian.Date, x.ThoiGian.Hour, x.TagName })
+                .Select(g => g.OrderByDescending(x => x.ThoiGian).First())
+                .ToList();
+
+
+            var excelBytes = _exportLBMT.GenerateExcelFile(
+                grouped,
+                path,
+                from,
+                to,
+                x => x.ThoiGian,
+                x => x.TagName,
+                x => x.GiaTri,
+                x => x.TagName
+                );
+
+            return excelBytes;
         }
 
         public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursLocBuiMoiTruongDuoiMayHais()
@@ -195,9 +218,30 @@ namespace VanHanhCD1.Repository.Repositories
             return SearchByTimeRange(_context.locBuiMoiTruongDuoiMayHais, from, to);
         }
 
-        public Task<byte[]> ExportLocBuiMoiTruongDuoiMayHais(DateTime from, DateTime to, string path)
+        public async Task<byte[]> ExportLocBuiMoiTruongDuoiMayHais(DateTime from, DateTime to, string path)
         {
-            throw new NotImplementedException();
+            var dataInRange = await _context.locBuiMoiTruongDuoiMayHais
+              .Where(x => x.ThoiGian >= from && x.ThoiGian <= to)
+              .ToListAsync();
+
+            var grouped = dataInRange
+                .GroupBy(x => new { x.ThoiGian.Date, x.ThoiGian.Hour, x.TagName })
+                .Select(g => g.OrderByDescending(x => x.ThoiGian).First())
+                .ToList();
+
+
+            var excelBytes = _exportLBMT.GenerateExcelFile(
+                grouped,
+                path,
+                from,
+                to,
+                x => x.ThoiGian,
+                x => x.TagName,
+                x => x.GiaTri,
+                x => x.TagName
+                );
+
+            return excelBytes;
         }
 
         public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursLocBuiMoiTruongMangQuangs()
@@ -210,9 +254,30 @@ namespace VanHanhCD1.Repository.Repositories
             return SearchByTimeRange(_context.locBuiMoiTruongMangQuangs, from, to);
         }
 
-        public Task<byte[]> ExportLocBuiMoiTruongMangQuangs(DateTime from, DateTime to, string path)
+        public async Task<byte[]> ExportLocBuiMoiTruongMangQuangs(DateTime from, DateTime to, string path)
         {
-            throw new NotImplementedException();
+            var dataInRange = await _context.locBuiMoiTruongMangQuangs
+              .Where(x => x.ThoiGian >= from && x.ThoiGian <= to)
+              .ToListAsync();
+
+            var grouped = dataInRange
+                .GroupBy(x => new { x.ThoiGian.Date, x.ThoiGian.Hour, x.TagName })
+                .Select(g => g.OrderByDescending(x => x.ThoiGian).First())
+                .ToList();
+
+
+            var excelBytes = _exportLBMT.GenerateExcelFile(
+                grouped,
+                path,
+                from,
+                to,
+                x => x.ThoiGian,
+                x => x.TagName,
+                x => x.GiaTri,
+                x => x.TagName
+                );
+
+            return excelBytes;
         }
     }
 }

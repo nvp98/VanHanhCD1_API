@@ -26,14 +26,14 @@ namespace VanHanhCD1.Controllers.PhuTro
             return Ok(result);
 
         }
-        //[HttpGet("export")]
-        //public async Task<IActionResult> ExportExcel([FromQuery] DateTime from, [FromQuery] DateTime to)
-        //{
-        //    if (from >= to)
-        //        return BadRequest("Thời gian không hợp lệ");
-        //    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/templates/BMVH_NH2.xlsx");
-        //    var excelBytes = await _service.ExportKhuKhiKhoiThieuKetHais(from, to, path);
-        //    return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Report_NH1_{from:yyyyMMdd}_{to:yyyyMMdd}.xlsx");
-        //}
+        [HttpGet("export")]
+        public async Task<IActionResult> ExportExcel([FromQuery] DateTime from, [FromQuery] DateTime to)
+        {
+            if (from >= to)
+                return BadRequest("Thời gian không hợp lệ");
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/templates/BMVH_TramNuocTuanHoan.xlsx");
+            var excelBytes = await _service.ExportTramNuocTuanHoans(from, to, path);
+            return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Report_TramNuocTuanHoan_{from:yyyyMMdd}_{to:yyyyMMdd}.xlsx");
+        }
     }
 }

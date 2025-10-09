@@ -11,14 +11,19 @@ namespace VanHanhCD1.Repository.Repositories
         private readonly AppDbContext _context;
         private readonly ExportQuatGio _exportQuatGio;
         private readonly ExportTurbine _exportTurbine;
+        private readonly ExportKhuKhiKhoi _exportKhuKhiKhoi;
         private readonly ExportNoiHoiMatVongMot _exportNoiHoiMatVongMot;
+        private readonly ExportTramNuocTuanHoan _exportTramNuocTuanHoan;
         public PhuTroRepository(AppDbContext context, ExportQuatGio exportQuatGio,
-            ExportTurbine exportTurbine, ExportNoiHoiMatVongMot exportNoiHoiMatVongMot)
+            ExportTurbine exportTurbine, ExportNoiHoiMatVongMot exportNoiHoiMatVongMot,
+            ExportKhuKhiKhoi exportKhuKhiKhoi, ExportTramNuocTuanHoan exportTramNuocTuanHoan)
         {
             _context = context;
             _exportQuatGio = exportQuatGio;
             _exportTurbine = exportTurbine;
             _exportNoiHoiMatVongMot = exportNoiHoiMatVongMot;
+            _exportKhuKhiKhoi = exportKhuKhiKhoi;
+            _exportTramNuocTuanHoan = exportTramNuocTuanHoan;
         }
 
         private async Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursDataAsync<T>(
@@ -531,9 +536,29 @@ namespace VanHanhCD1.Repository.Repositories
             return SearchByTimeRange(_context.khuKhiKhoiThieuKetMots, from, to);
         }
 
-        public Task<byte[]> ExportKhuKhiKhoiThieuKetMots(DateTime from, DateTime to, string path)
+        public async Task<byte[]> ExportKhuKhiKhoiThieuKetMots(DateTime from, DateTime to, string path)
         {
-            throw new NotImplementedException();
+            var dataInRange = await _context.khuKhiKhoiThieuKetMots
+           .Where(x => x.ThoiGian >= from && x.ThoiGian <= to)
+           .ToListAsync();
+
+            var grouped = dataInRange
+                .GroupBy(x => new { x.ThoiGian.Date, x.ThoiGian.Hour, x.TagName })
+                .Select(g => g.OrderByDescending(x => x.ThoiGian).First())
+                .ToList();
+
+            var excelBytes = _exportKhuKhiKhoi.GenerateExcelFile(
+                grouped,
+                path,
+                from,
+                to,
+                x => x.ThoiGian,
+                x => x.TagName,
+                x => x.GiaTri,
+                x => x.TagName
+                );
+
+            return excelBytes;
         }
 
         public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursKhuKhiKhoiThieuKetHais()
@@ -546,9 +571,29 @@ namespace VanHanhCD1.Repository.Repositories
             return SearchByTimeRange(_context.khuKhiKhoiThieuKetHais, from, to);
         }
 
-        public Task<byte[]> ExportKhuKhiKhoiThieuKetHais(DateTime from, DateTime to, string path)
+        public async Task<byte[]> ExportKhuKhiKhoiThieuKetHais(DateTime from, DateTime to, string path)
         {
-            throw new NotImplementedException();
+            var dataInRange = await _context.khuKhiKhoiThieuKetHais
+           .Where(x => x.ThoiGian >= from && x.ThoiGian <= to)
+           .ToListAsync();
+
+            var grouped = dataInRange
+                .GroupBy(x => new { x.ThoiGian.Date, x.ThoiGian.Hour, x.TagName })
+                .Select(g => g.OrderByDescending(x => x.ThoiGian).First())
+                .ToList();
+
+            var excelBytes = _exportKhuKhiKhoi.GenerateExcelFile(
+                grouped,
+                path,
+                from,
+                to,
+                x => x.ThoiGian,
+                x => x.TagName,
+                x => x.GiaTri,
+                x => x.TagName
+                );
+
+            return excelBytes;
         }
 
         public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursTramNuocTuanHoans()
@@ -561,9 +606,29 @@ namespace VanHanhCD1.Repository.Repositories
             return SearchByTimeRange(_context.tramNuocTuanHoans, from, to);
         }
 
-        public Task<byte[]> ExporTramNuocTuanHoans(DateTime from, DateTime to, string path)
+        public async Task<byte[]> ExportTramNuocTuanHoans(DateTime from, DateTime to, string path)
         {
-            throw new NotImplementedException();
+            var dataInRange = await _context.tramNuocTuanHoans
+           .Where(x => x.ThoiGian >= from && x.ThoiGian <= to)
+           .ToListAsync();
+
+            var grouped = dataInRange
+                .GroupBy(x => new { x.ThoiGian.Date, x.ThoiGian.Hour, x.TagName })
+                .Select(g => g.OrderByDescending(x => x.ThoiGian).First())
+                .ToList();
+
+            var excelBytes = _exportTramNuocTuanHoan.GenerateExcelFile(
+                grouped,
+                path,
+                from,
+                to,
+                x => x.ThoiGian,
+                x => x.TagName,
+                x => x.GiaTri,
+                x => x.TagName
+                );
+
+            return excelBytes;
         }
     }
 }

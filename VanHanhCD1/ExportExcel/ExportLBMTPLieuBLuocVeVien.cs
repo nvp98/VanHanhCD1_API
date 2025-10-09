@@ -171,11 +171,11 @@ namespace VanHanhCD1.ExportExcel
             IXLWorksheet sheet, DateTime blockStart,
             string dayFrom, string dayTo)
         {
-            var dateTimeTitle = $"Từ {dayFrom} đến {dayTo} ngày {dayTo} thánh {blockStart:MM} năm {blockStart:yyyy}";
+            var dateTimeTitle = $"Từ {dayFrom} đến {dayTo} tháng {blockStart:MM} năm {blockStart:yyyy}";
             // var title = "NHẬT KÝ VẬN HÀNH VÊ VIÊN";
             var subtitle = $"{dateTimeTitle}";
 
-            var cellSheet = sheet.Cell("I5");
+            var cellSheet = sheet.Cell("A3");
             cellSheet.Clear(XLClearOptions.Contents);
             var richTextNgay = cellSheet.GetRichText();
             //richTextNgay.AddText(title).SetFontSize(18).SetBold().SetItalic(false);

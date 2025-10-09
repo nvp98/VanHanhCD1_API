@@ -20,11 +20,14 @@ builder.Services.AddScoped<ExportLBDO1>();
 builder.Services.AddScoped<ExportQHCVeVien>();
 builder.Services.AddScoped<ExportLBTDVeVien>();
 builder.Services.AddScoped<ExportLBMTPLieuBLuocVeVien>();
+builder.Services.AddScoped<ExportLBMT>();
 builder.Services.AddScoped<ExportThieuKet>();
 builder.Services.AddScoped<ExportQuatGio>();
 builder.Services.AddScoped<ExportTurbine>();
 builder.Services.AddScoped<ExportNoiHoiMatVongMot>();
 builder.Services.AddScoped<ExportKhuKhiKhoi>();
+builder.Services.AddScoped<ExportTramNuocTuanHoan>();
+builder.Services.AddScoped<ExportLoVoiQuay>();
 builder.Services.AddScoped<ExportVoiXiMang>();
 
 builder.Services.AddGlobalExceptionHandling();

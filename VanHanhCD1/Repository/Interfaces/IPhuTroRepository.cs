@@ -46,7 +46,7 @@
         public Task<byte[]> ExportKhuKhiKhoiThieuKetHais(DateTime from, DateTime to, string path);
         public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursTramNuocTuanHoans();
         public Task<IEnumerable<Dictionary<string, object>>> GetSearchTimeTramNuocTuanHoans(DateTime from, DateTime to);
-        public Task<byte[]> ExporTramNuocTuanHoans(DateTime from, DateTime to, string path);
+        public Task<byte[]> ExportTramNuocTuanHoans(DateTime from, DateTime to, string path);
     }
 }
 
