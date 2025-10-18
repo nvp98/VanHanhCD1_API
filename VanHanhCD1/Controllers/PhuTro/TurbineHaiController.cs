@@ -14,9 +14,9 @@ namespace VanHanhCD1.Controllers.PhuTro
             _service = service;
         }
         [HttpGet("last-24h")]
-        public async Task<IActionResult> GetLast24HoursQuatGioHaiThieuKetMots()
+        public async Task<IActionResult> GetLast24HoursTurbineHaiThieuKetMots()
         {
-            var result = await _service.GetLast24HoursQuatGioHaiThieuKetMots();
+            var result = await _service.GetLast24HoursTurbineHaiThieuKetMots();
             return Ok(result);
         }
         [HttpGet("search")]
