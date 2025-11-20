@@ -125,13 +125,20 @@ namespace VanHanhCD1.ExportExcel
         {
             var blocks = new List<DateTime>();
             var blockStart = new DateTime(from.Year, from.Month, from.Day, 8, 0, 0);
-            if (from.Hour < 8) blockStart = blockStart.AddDays(-1);
+            if (from.Hour <= 8) blockStart = blockStart.AddDays(-1);
             var blockEnd = new DateTime(to.Year, to.Month, to.Day, 8, 0, 0);
-
+            if(to.Hour >= 8) blockEnd = blockEnd.AddDays(1);
 
             while (blockStart <= to && blockStart < blockEnd)
             {
-                blocks.Add(blockStart);
+                var blockFinish = blockStart.AddHours(23);
+
+                // Chỉ thêm block nếu có bất kỳ giờ nào giao với [from, to]
+                if (!(blockFinish < from || blockStart > to))
+                {
+                    blocks.Add(blockStart);
+                }
+
                 blockStart = blockStart.AddDays(1);
             }
             return blocks;
@@ -173,14 +180,27 @@ namespace VanHanhCD1.ExportExcel
             string dayFrom, string dayTo)
         {
             var dateTimeTitle = $"Từ {dayFrom} đến {dayTo} tháng {blockStart:MM} năm {blockStart:yyyy}";
+            var dayFromTimeTitle = $"8h đến 19h ngày {dayFrom} tháng {blockStart:MM} năm {blockStart:yyyy}";
+            var dayToTimeTitle = $"20h ngày {dayFrom} đến 7h ngày {dayTo} tháng {blockStart:MM} năm {blockStart:yyyy}";
             // var title = "NHẬT KÝ VẬN HÀNH VÊ VIÊN";
             var subtitle = $"{dateTimeTitle}";
+            var subtitleFrom = $"{dayFromTimeTitle}";
+            var subtitleTo = $"{dayToTimeTitle}";
 
             var cellSheet = sheet.Cell("S4");
+            var cellSheetFrom = sheet.Cell("A10");
+            var cellSheetTo = sheet.Cell("A22");
+
             cellSheet.Clear(XLClearOptions.Contents);
+            cellSheetFrom.Clear(XLClearOptions.Contents);
+            cellSheetTo.Clear(XLClearOptions.Contents);
             var richTextNgay = cellSheet.GetRichText();
+            var richTextFrom = cellSheetFrom.GetRichText();
+            var richTextTo = cellSheetTo.GetRichText();
             //richTextNgay.AddText(title).SetFontSize(18).SetBold().SetItalic(false);
             richTextNgay.AddText(subtitle).SetFontSize(10).SetItalic().SetBold(false);
+            richTextFrom.AddText(subtitleFrom).SetFontSize(10).SetBold().SetItalic(false);
+            richTextTo.AddText(subtitleTo).SetFontSize(10).SetBold().SetItalic(false);
 
         }
 

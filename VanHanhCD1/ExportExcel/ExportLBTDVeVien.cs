@@ -6,8 +6,8 @@ namespace VanHanhCD1.ExportExcel
     {
         private const string TemplateSheetNameOne = "Sheet1";
         private const string TemplateSheetNameTwo = "Sheet2";
-        private const int DefaultSymbolColumn = 4; //column D
-        private const int DefaultSymbolRow = 7;
+        private const int DefaultSymbolColumn = 3; //column D
+        private const int DefaultSymbolRow = 6;
         private const int HoursInBlock = 24;
         private const int DataStartColumn = 5;
         private readonly ILogger<ExportLBTDVeVien> _logger;
@@ -124,13 +124,20 @@ namespace VanHanhCD1.ExportExcel
         {
             var blocks = new List<DateTime>();
             var blockStart = new DateTime(from.Year, from.Month, from.Day, 8, 0, 0);
-            if (from.Hour < 8) blockStart = blockStart.AddDays(-1);
+            if (from.Hour <= 8) blockStart = blockStart.AddDays(-1);
             var blockEnd = new DateTime(to.Year, to.Month, to.Day, 8, 0, 0);
-
+            if (to.Hour >= 8) blockEnd = blockEnd.AddDays(1);
 
             while (blockStart <= to && blockStart < blockEnd)
             {
-                blocks.Add(blockStart);
+                var blockFinish = blockStart.AddHours(23);
+
+                // Chỉ thêm block nếu có bất kỳ giờ nào giao với [from, to]
+                if (!(blockFinish < from || blockStart > to))
+                {
+                    blocks.Add(blockStart);
+                }
+
                 blockStart = blockStart.AddDays(1);
             }
             return blocks;

@@ -123,16 +123,23 @@ namespace VanHanhCD1.ExportExcel
 
         // Lấy danh sách khối thời gian
         private static List<DateTime> GetDateBlocks(DateTime from, DateTime to) 
-        { 
+        {
             var blocks = new List<DateTime>();
             var blockStart = new DateTime(from.Year, from.Month, from.Day, 8, 0, 0);
-            if (from.Hour < 8) blockStart = blockStart.AddDays(-1);
+            if (from.Hour <= 8) blockStart = blockStart.AddDays(-1);
             var blockEnd = new DateTime(to.Year, to.Month, to.Day, 8, 0, 0);
-           
+            if (to.Hour >= 8) blockEnd = blockEnd.AddDays(1);
 
             while (blockStart <= to && blockStart < blockEnd)
             {
-                blocks.Add(blockStart);
+                var blockFinish = blockStart.AddHours(23);
+
+                // Chỉ thêm block nếu có bất kỳ giờ nào giao với [from, to]
+                if (!(blockFinish < from || blockStart > to))
+                {
+                    blocks.Add(blockStart);
+                }
+
                 blockStart = blockStart.AddDays(1);
             }
             return blocks;
