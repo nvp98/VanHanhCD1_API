@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using VanHanhCD1.Models.LuyenCoc;
 using VanHanhCD1.Models.PhuTro;
 using VanHanhCD1.Models.ThieuKet;
 using VanHanhCD1.Models.VeVien;
@@ -50,6 +51,20 @@ namespace VanHanhCD1.Models
         public DbSet<LoDoMitMot> loDoMitMots { get; set; }
         public DbSet<LoDoMitHai> loDoMitHais { get; set; }
         public DbSet<LoVoiQuay> loVoiQuays { get; set; }
+
+        //Luyen Coc
+        public DbSet<LuyenCocCDQ1> luyenCocCDQ1s { get; set; }
+        public DbSet<LuyenCocCDQ2> luyenCocCDQ2s { get; set; }
+        public DbSet<LuyenCocCDQ3> luyenCocCDQ3s { get; set; }
+        public DbSet<LuyenCocLocBuiMoiTruongMatDat1> luyenCocLocBuiMoiTruongMatDat1s { get; set; }
+        public DbSet<LuyenCocLocBuiMoiTruongMatDat2> luyenCocLocBuiMoiTruongMatDat2s { get; set; }
+        public DbSet<LuyenCocLocBuiNhaSang2> luyenCocLocBuiNhaSang2s { get; set; }
+        public DbSet<LuyenCocMayNghien> luyenCocMayNghiens { get; set; }
+        public DbSet<LuyenCocQuatTuanHoan1> luyenCocQuatTuanHoan1s { get; set; }
+        public DbSet<LuyenCocQuatTuanHoan2> luyenCocQuatTuanHoan2s { get; set; }
+        public DbSet<LuyenCocQuatTuanHoan3> luyenCocQuatTuanHoan3s { get; set; }
+
+        //End Luyen Coc
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<NguoiDung>().ToTable("NguoiDung");
@@ -91,6 +106,19 @@ namespace VanHanhCD1.Models
             modelBuilder.Entity<LoDoMitMot>().ToTable("VH_LoDoLoMit1");
             modelBuilder.Entity<LoDoMitHai>().ToTable("VH_LoDoLoMit2");
             modelBuilder.Entity<LoVoiQuay>().ToTable("VH_LoVoiQuay");
+
+            //LuyenCoc
+            modelBuilder.Entity<LuyenCocCDQ1>().ToTable("VHLC_CDQ1");
+            modelBuilder.Entity<LuyenCocCDQ2>().ToTable("VHLC_CDQ2");
+            modelBuilder.Entity<LuyenCocCDQ3>().ToTable("VHLC_CDQ3");
+            modelBuilder.Entity<LuyenCocLocBuiMoiTruongMatDat1>().ToTable("VHLC_LBMT1");
+            modelBuilder.Entity<LuyenCocLocBuiMoiTruongMatDat2>().ToTable("VHLC_LBMT2");
+            modelBuilder.Entity<LuyenCocLocBuiNhaSang2>().ToTable("VHLC_LBNS2");
+            modelBuilder.Entity<LuyenCocMayNghien>().ToTable("VHLC_COAL");
+            modelBuilder.Entity<LuyenCocQuatTuanHoan1>().ToTable("VHLC_QGTH1");
+            modelBuilder.Entity<LuyenCocQuatTuanHoan2>().ToTable("VHLC_QGTH2");
+            modelBuilder.Entity<LuyenCocQuatTuanHoan3>().ToTable("VHLC_QGTH3");
+
             base.OnModelCreating(modelBuilder);
         }
 
