@@ -25,14 +25,14 @@ namespace VanHanhCD1.Controllers.LuyenCoc
             var result = await _service.GetSearchTimeLuyenCocCDQ3s(from, to);
             return Ok(result);
         }
-        //[HttpGet("export")]
-        //public async Task<IActionResult> ExportExcel([FromQuery] DateTime from, [FromQuery] DateTime to)
-        //{
-        //    if (from >= to)
-        //        return BadRequest("Thời gian không hợp lệ");
-        //    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/templates/BMVH_KhuKhiKhoiThieuKet2.xlsx");
-        //    var excelBytes = await _service.ExportKhuKhiKhoiThieuKetHais(from, to, path);
-        //    return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Report_KhuKhiKhoiThieuKet2_{from:yyyyMMdd}_{to:yyyyMMdd}.xlsx");
-        //}
+        [HttpGet("export")]
+        public async Task<IActionResult> ExportExcel([FromQuery] DateTime from, [FromQuery] DateTime to)
+        {
+            if (from >= to)
+                return BadRequest("Thời gian không hợp lệ");
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/templates/BMVH_LUYENCOC_CDQ3.xlsx");
+            var excelBytes = await _service.ExportLuyenCocCDQ3s(from, to, path);
+            return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Report_CDQ3_{from:yyyyMMdd}_{to:yyyyMMdd}.xlsx");
+        }
     }
 }
