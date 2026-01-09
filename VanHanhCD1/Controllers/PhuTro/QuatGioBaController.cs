@@ -19,6 +19,12 @@ namespace VanHanhCD1.Controllers.PhuTro
             var result = await _service.GetLast24HoursQuatGioBaThieuKetHais();
             return Ok(result);
         }
+        [HttpGet("min-value")]
+        public IEnumerable<object> GetMinValue()
+        {
+            var result = _service.GetQuatGioBaMinValues();
+            return result;
+        }
         [HttpGet("search")]
         public async Task<IActionResult> SearchByTimeRangeQuatGioBaThieuKetHais([FromQuery] DateTime from, [FromQuery] DateTime to)
         {

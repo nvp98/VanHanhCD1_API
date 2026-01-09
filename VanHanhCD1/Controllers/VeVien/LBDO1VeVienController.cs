@@ -20,6 +20,12 @@ namespace VanHanhCD1.Controllers.VeVien
         {
             return _veVienService.GetLocBuiDaOngMots();
         }
+        [HttpGet("min-value")]
+        public IEnumerable<object> GetMinValue()
+        {
+            var result = _veVienService.GetLocBuiDaOngMotMinValues();
+            return result;
+        }
         [HttpGet("last-24h")]
         public async Task<IActionResult> GetLast24HoursLBDO1()
         {

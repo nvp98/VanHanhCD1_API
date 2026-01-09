@@ -11,11 +11,13 @@ namespace VanHanhCD1.Repository.Repositories
     {
         private readonly AppDbContext _context;
         private readonly ExportThieuKet _exportThieuKet;
-      
-        public ThieuKetRepository(AppDbContext context, ExportThieuKet exportThieuKet)
+        private readonly ExportLBMT _exportLBMT;
+
+        public ThieuKetRepository(AppDbContext context, ExportThieuKet exportThieuKet, ExportLBMT exportLBMT)
         {
             _context = context;
             _exportThieuKet = exportThieuKet;
+            _exportLBMT = exportLBMT;
         }
 
         private async Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursDataAsync<T>(
@@ -180,9 +182,30 @@ namespace VanHanhCD1.Repository.Repositories
             return SearchByTimeRange(_context.locBuiMoiTruongDuoiMayMots, from, to);
         }
 
-        public Task<byte[]> ExportLocBuiMoiTruongDuoiMayMots(DateTime from, DateTime to, string path)
+        public async Task<byte[]> ExportLocBuiMoiTruongDuoiMayMots(DateTime from, DateTime to, string path)
         {
-            throw new NotImplementedException();
+            var dataInRange = await _context.locBuiMoiTruongDuoiMayMots
+              .Where(x => x.ThoiGian >= from && x.ThoiGian <= to)
+              .ToListAsync();
+
+            var grouped = dataInRange
+                .GroupBy(x => new { x.ThoiGian.Date, x.ThoiGian.Hour, x.TagName })
+                .Select(g => g.OrderByDescending(x => x.ThoiGian).First())
+                .ToList();
+
+
+            var excelBytes = _exportLBMT.GenerateExcelFile(
+                grouped,
+                path,
+                from,
+                to,
+                x => x.ThoiGian,
+                x => x.TagName,
+                x => x.GiaTri,
+                x => x.TagName
+                );
+
+            return excelBytes;
         }
 
         public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursLocBuiMoiTruongDuoiMayHais()
@@ -195,9 +218,30 @@ namespace VanHanhCD1.Repository.Repositories
             return SearchByTimeRange(_context.locBuiMoiTruongDuoiMayHais, from, to);
         }
 
-        public Task<byte[]> ExportLocBuiMoiTruongDuoiMayHais(DateTime from, DateTime to, string path)
+        public async Task<byte[]> ExportLocBuiMoiTruongDuoiMayHais(DateTime from, DateTime to, string path)
         {
-            throw new NotImplementedException();
+            var dataInRange = await _context.locBuiMoiTruongDuoiMayHais
+              .Where(x => x.ThoiGian >= from && x.ThoiGian <= to)
+              .ToListAsync();
+
+            var grouped = dataInRange
+                .GroupBy(x => new { x.ThoiGian.Date, x.ThoiGian.Hour, x.TagName })
+                .Select(g => g.OrderByDescending(x => x.ThoiGian).First())
+                .ToList();
+
+
+            var excelBytes = _exportLBMT.GenerateExcelFile(
+                grouped,
+                path,
+                from,
+                to,
+                x => x.ThoiGian,
+                x => x.TagName,
+                x => x.GiaTri,
+                x => x.TagName
+                );
+
+            return excelBytes;
         }
 
         public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursLocBuiMoiTruongMangQuangs()
@@ -210,9 +254,96 @@ namespace VanHanhCD1.Repository.Repositories
             return SearchByTimeRange(_context.locBuiMoiTruongMangQuangs, from, to);
         }
 
-        public Task<byte[]> ExportLocBuiMoiTruongMangQuangs(DateTime from, DateTime to, string path)
+        public async Task<byte[]> ExportLocBuiMoiTruongMangQuangs(DateTime from, DateTime to, string path)
+        {
+            var dataInRange = await _context.locBuiMoiTruongMangQuangs
+              .Where(x => x.ThoiGian >= from && x.ThoiGian <= to)
+              .ToListAsync();
+
+            var grouped = dataInRange
+                .GroupBy(x => new { x.ThoiGian.Date, x.ThoiGian.Hour, x.TagName })
+                .Select(g => g.OrderByDescending(x => x.ThoiGian).First())
+                .ToList();
+
+
+            var excelBytes = _exportLBMT.GenerateExcelFile(
+                grouped,
+                path,
+                from,
+                to,
+                x => x.ThoiGian,
+                x => x.TagName,
+                x => x.GiaTri,
+                x => x.TagName
+                );
+
+            return excelBytes;
+        }
+
+        
+        public IEnumerable<LocBuiMoiTruongDuoiMay1> GetLocBuiMoiTruongDuoiMayMotMinValues()
+        {
+            return _context.locBuiMoiTruongDuoiMayMots
+                .FromSqlRaw("GET3Month_MinValue @TableName='VH_LBMT_DuoiMay1'");
+        }
+
+        public IEnumerable<LocBuiMoiTruongDuoiMay2> GetLocBuiMoiTruongDuoiMayHaiMinValues()
+        {
+            return _context.locBuiMoiTruongDuoiMayHais
+                .FromSqlRaw("GET3Month_MinValue @TableName='VH_LBMT_DuoiMay2'");
+        }
+
+        public IEnumerable<LocBuiMoiTruongMangQuang> GetLocBuiMoiTruongMangQuangMinValues()
+        {
+            return _context.locBuiMoiTruongMangQuangs
+            .FromSqlRaw("GET3Month_MinValue @TableName='VH_LBMT_MangQuang'");
+        }
+
+        //Dong Co TK1
+        public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursDongCoThieuKet1s()
+        {
+            return GetLast24HoursDataAsync(_context.dongCoThieuKet1s);
+        }
+
+        public Task<IEnumerable<Dictionary<string, object>>> GetSearchTimeDongCoThieuKet1s(DateTime from, DateTime to)
+        {
+            return SearchByTimeRange(_context.dongCoThieuKet1s, from, to);
+        }
+
+        public Task<byte[]> ExportDongCoThieuKet1s(DateTime from, DateTime to, string path)
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<DongCoThieuKet1> GetDongCoThieuKet1MinValues()
+        {
+            return _context.dongCoThieuKet1s
+                 .FromSqlRaw("GET3Month_MinValue @TableName='DongCo_ThieuKet1'");
+        }
+
+        //Dong Co TK1
+
+        //Dong Co TK2
+        public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursDongCoThieuKet2s()
+        {
+            return GetLast24HoursDataAsync(_context.dongCoThieuKet2s);
+        }
+
+        public Task<IEnumerable<Dictionary<string, object>>> GetSearchTimeDongCoThieuKet2s(DateTime from, DateTime to)
+        {
+            return SearchByTimeRange(_context.dongCoThieuKet2s, from, to);
+        }
+
+        public Task<byte[]> ExportDongCoThieuKet2s(DateTime from, DateTime to, string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<DongCoThieuKet2> GetDongCoThieuKet2MinValues()
+        {
+            return _context.dongCoThieuKet2s
+                .FromSqlRaw("GET3Month_MinValue @TableName='DongCo_ThieuKet2'");
+        }
+        //Dong Co TK2
     }
 }

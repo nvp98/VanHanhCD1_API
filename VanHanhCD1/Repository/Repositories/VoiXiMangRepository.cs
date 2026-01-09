@@ -10,12 +10,13 @@ namespace VanHanhCD1.Repository.Repositories
     {
         private readonly AppDbContext _context;
         private readonly ExportVoiXiMang _exportVoiXiMang;
+        private readonly ExportLoVoiQuay _exportLoVoiQuay;
 
-        public VoiXiMangRepository(AppDbContext context, ExportVoiXiMang exportVoiXiMang)
+        public VoiXiMangRepository(AppDbContext context, ExportVoiXiMang exportVoiXiMang, ExportLoVoiQuay exportLoVoiQuay)
         {
             _context = context;
             _exportVoiXiMang = exportVoiXiMang;
-           
+            _exportLoVoiQuay = exportLoVoiQuay;
         }
 
         private async Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursDataAsync<T>(
@@ -265,7 +266,9 @@ namespace VanHanhCD1.Repository.Repositories
                 );
             return exvelBytes;
         }
+        //Hai
 
+        //Lo Quay
         public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursLoVoiQuay()
         {
             return GetLast24HoursDataAsync(_context.loVoiQuays);
@@ -285,7 +288,7 @@ namespace VanHanhCD1.Repository.Repositories
                 .GroupBy(x => new { x.ThoiGian.Date, x.ThoiGian.Hour, x.TagName })
                 .Select(g => g.OrderByDescending(x => x.ThoiGian).First())
                 .ToList();
-            var exvelBytes = _exportVoiXiMang.GenerateExcelFile(
+            var exvelBytes = _exportLoVoiQuay.GenerateExcelFile(
                 grouped,
                 path,
                 from,
@@ -297,7 +300,25 @@ namespace VanHanhCD1.Repository.Repositories
                 );
             return exvelBytes;
         }
-        //Hai
+        //Lo Quay
+
+        //Dong Co 
+        public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursDongCoVoiXiMang()
+        {
+            return GetLast24HoursDataAsync(_context.dongCoVoiXiMangs);
+        }
+
+        public Task<IEnumerable<Dictionary<string, object>>> GetSearchTimeDongCoVoiXiMang(DateTime from, DateTime to)
+        {
+           return SearchByTimeRange(_context.dongCoVoiXiMangs, from, to);
+        }
+
+        public IEnumerable<DongCoVoiXiMang> GetDongCoVoiXiMangMinValues()
+        {
+            return _context.dongCoVoiXiMangs
+                 .FromSqlRaw("GET3Month_MinValue @TableName='DongCo_VoiXiMang'");
+        }
+        //Dong Co 
 
     }
 }

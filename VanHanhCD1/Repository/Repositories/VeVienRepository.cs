@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using VanHanhCD1.ExportExcel;
 using VanHanhCD1.Models;
+using VanHanhCD1.Models.ThieuKet;
 using VanHanhCD1.Models.VeVien;
 using VanHanhCD1.Repository.Interfaces;
 
@@ -316,6 +317,42 @@ namespace VanHanhCD1.Repository.Repositories
                 x => x.TagName
                 );
             return exvelBytes;
+        }
+
+        public IEnumerable<object> GetMaxValue()
+        {
+            return _context.LBDO1VeViens
+                .FromSqlRaw("GET3Month_MinValue @TableName='VH_LBMT_DuoiMay1'");
+        }
+
+        public IEnumerable<LBDO1VeVien> GetLocBuiDaOngMotMinValues()
+        {
+            return _context.LBDO1VeViens
+               .FromSqlRaw("GET3Month_MinValue @TableName='VH_LBDO1VeVien'");
+        }
+
+        public IEnumerable<LBDO2VeVien> GetLocBuiDaOngHaiMinValues()
+        {
+            return _context.LBDO2VeViens
+               .FromSqlRaw("GET3Month_MinValue @TableName='VH_LBDO2VeVien'");
+        }
+
+        public IEnumerable<QuatHutChinh> GetQuatHutChinhMinValues()
+        {
+            return _context.quatHutChinhs
+               .FromSqlRaw("GET3Month_MinValue @TableName='VH_QHCVeVien'");
+        }
+
+        public IEnumerable<LocBuiMoiTruongPLieuBLuoc> GetLocBuiMoiTruongPhoiLieuBanLuocMinValues()
+        {
+            return _context.locBuiMoiTruongPLieuBLuocs
+               .FromSqlRaw("GET3Month_MinValue @TableName='VH_LBMT_PhoiLieuBanLuocVeVien'");
+        }
+
+        public IEnumerable<LBMTMTPTrungChuyen23> GetLocBuiMoiTruongMangQuangThanhPhamTrungChuyen23MinValues()
+        {
+            return _context.locBuiMoiTruongMangThanhPhamTrungChuyen23s
+               .FromSqlRaw("GET3Month_MinValue @TableName='VH_LBMT_MTP_TramTrungChuyen23VeVien'");
         }
     }
 }

@@ -20,6 +20,12 @@ namespace VanHanhCD1.Controllers.VeVien
             var result = await _veVienService.GetLast24HoursLocBuiMoiTruongMangThanhPhamTrungChuyen23();
             return Ok(result);
         }
+        [HttpGet("min-value")]
+        public IEnumerable<object> GetMinValue()
+        {
+            var result = _veVienService.GetLocBuiMoiTruongMangQuangThanhPhamTrungChuyen23MinValues();
+            return result;
+        }
         [HttpGet("search")]
         public async Task<IActionResult> SearchByTimeRangeLocBuiMoiTruongMangThanhPhamTrungChuyen23([FromQuery] DateTime from, [FromQuery] DateTime to)
         {
