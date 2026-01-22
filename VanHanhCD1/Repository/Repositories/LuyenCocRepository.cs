@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Office.CustomUI;
 using Microsoft.EntityFrameworkCore;
+using VanHanhCD1.Exceptions;
 using VanHanhCD1.ExportExcel;
 using VanHanhCD1.Models;
 using VanHanhCD1.Models.LuyenCoc;
@@ -469,46 +470,105 @@ namespace VanHanhCD1.Repository.Repositories
 
             return excelBytes;
         }
-
-        
         //QuatTuanHoan3
+        static readonly HashSet<string> Lo1Tags = new()
+        {
+                "LO101","LO102","LO103","LO104","LO105","LO106","LO107","LO108","LO109", "LO110",
+                "LO111","LO112","LO113","LO114","LO115","LO116","LO117","LO118","LO119", "LO120",
+        };
+        static readonly HashSet<string> Lo2Tags = new()
+        {
+                "LO201","LO202","LO203","LO204","LO205","LO206","LO207","LO208","LO209", "LO210",
+                "LO211","LO212","LO213","LO214","LO215","LO216","LO217","LO218","LO219", "LO220",
+        };
+        static readonly HashSet<string> Lo3Tags = new()
+        {
+                "LO301","LO302","LO303","LO304","LO305","LO306","LO307","LO308","LO309", "LO310",
+                "LO311","LO312","LO313","LO314","LO315","LO316","LO317","LO318","LO319", "LO320",
+        };
+        static readonly HashSet<string> Lo4Tags = new()
+        {
+                "LO401","LO402","LO403","LO404","LO405","LO406","LO407","LO408","LO409", "LO410",
+                "LO411","LO412","LO413","LO414","LO415","LO416","LO417","LO418","LO419", "LO420",
+        };
+        string GetCum(string tagName)
+        {
+            if (string.IsNullOrEmpty(tagName)) return "";
+
+            var baseTag = tagName.Split('_')[0];   // LO101_H → LO101
+
+            if (Lo1Tags.Contains(baseTag)) return "Lo 1";
+            if (Lo2Tags.Contains(baseTag)) return "Lo 2";
+            if (Lo3Tags.Contains(baseTag)) return "Lo 3";
+            if (Lo4Tags.Contains(baseTag)) return "Lo 4";
+
+            return "";
+        }
 
 
+        public  IEnumerable<Dictionary<string, object>> GetSearchTimeLuyenCocCum12(DateTime? times)
+        {
+            if (times==null) throw new AppException(ErrorCode.VALIDATE_TIME_EXCEPTION);
 
+            var dataInRange = _context.luyenCocCum12s
+                .Where(x => x.ThoiGian == times)
+                .ToList();
+            var rawData = dataInRange
+                .GroupBy(item => new { item.ThoiGian.Hour, item.ThoiGian.Minute, item.TagName })
+                .Select(g => g.OrderByDescending(item => item.ThoiGian).First())
+                .ToList();
 
+            var uniqueTimes = rawData
+                .Select(item => item.ThoiGian.Date.AddHours(item.ThoiGian.Hour).AddMinutes(item.ThoiGian.Minute))
+                .Distinct()
+                .OrderBy(time => time)
+                .ToList();
+            var result = uniqueTimes.Select(time =>
+            {
+                var group = rawData.Where(x => x.ThoiGian.Date == time.Date && x.ThoiGian.Hour == time.Hour);
 
+                var row = new Dictionary<string, object>
+                {
+                    ["ThoiGian"] = time,
+                    ["Lo 1"] = new Dictionary<string, object>(),
+                    ["Lo 2"] = new Dictionary<string, object>(),
+                    ["Lo 3"] = new Dictionary<string, object>(),
+                    ["Lo 4"] = new Dictionary<string, object>()
+                };
 
+                var lo1 = (Dictionary<string, object>)row["Lo 1"];
+                var lo2 = (Dictionary<string, object>)row["Lo 2"];
+                var lo3 = (Dictionary<string, object>)row["Lo 3"];
+                var lo4 = (Dictionary<string, object>)row["Lo 4"];
 
+                foreach (var item in group)
+                {
+                    if (string.IsNullOrEmpty(item.TagName)) continue;
 
+                    var cum = GetCum(item.TagName);
 
+                    switch (cum)
+                    {
+                        case "Lo 1":
+                            lo1[item.TagName] = item.GiaTri;
+                            break;
+                        case "Lo 2":
+                            lo2[item.TagName] = item.GiaTri;
+                            break;
+                        case "Lo 3":
+                            lo3[item.TagName] = item.GiaTri;
+                            break;
+                        case "Lo 4":
+                            lo4[item.TagName] = item.GiaTri;
+                            break;
+                    }
+                }
+                return row;
+            }).ToList();
 
+            return result;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        }
 
     }
 }

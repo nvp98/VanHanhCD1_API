@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using VanHanhCD1.Models.BaiLieu;
 using VanHanhCD1.Models.LuyenCoc;
 using VanHanhCD1.Models.PhuTro;
 using VanHanhCD1.Models.ThieuKet;
@@ -54,6 +55,7 @@ namespace VanHanhCD1.Models
         public DbSet<LoDoMitHai> loDoMitHais { get; set; }
         public DbSet<LoVoiQuay> loVoiQuays { get; set; }
         public DbSet<DongCoVoiXiMang> dongCoVoiXiMangs { get; set; }
+        //End Voi Xi Mang
         //Luyen Coc
         public DbSet<LuyenCocCDQ1> luyenCocCDQ1s { get; set; }
         public DbSet<LuyenCocCDQ2> luyenCocCDQ2s { get; set; }
@@ -65,8 +67,17 @@ namespace VanHanhCD1.Models
         public DbSet<LuyenCocQuatTuanHoan1> luyenCocQuatTuanHoan1s { get; set; }
         public DbSet<LuyenCocQuatTuanHoan2> luyenCocQuatTuanHoan2s { get; set; }
         public DbSet<LuyenCocQuatTuanHoan3> luyenCocQuatTuanHoan3s { get; set; }
-
+        public DbSet<LuyenCocCum12> luyenCocCum12s { get; set; }
         //End Luyen Coc
+
+        //Bai Lieu
+        public DbSet<DongCoTrungThe> dongCoTrungThes { get; set; } 
+        public DbSet<DongCoLocBuiC1> dongCoLocBuiC1s { get; set; }
+        public DbSet<DongCoLocBuiC2> dongCoLocBuiC2s { get; set; }
+        public DbSet<DongCoLocBuiC3> dongCoLocBuiC3s { get; set; }
+        public DbSet<DongCoLocBuiC4> dongCoLocBuiC4s { get; set; }
+        public DbSet<DongCoLocBuiC5> dongCoLocBuiC5s { get; set; }
+        //End Bai Lieu
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<NguoiDung>().ToTable("NguoiDung");
@@ -122,7 +133,14 @@ namespace VanHanhCD1.Models
             modelBuilder.Entity<LuyenCocQuatTuanHoan1>().ToTable("VHLC_QGTH1");
             modelBuilder.Entity<LuyenCocQuatTuanHoan2>().ToTable("VHLC_QGTH2");
             modelBuilder.Entity<LuyenCocQuatTuanHoan3>().ToTable("VHLC_QGTH3");
-
+            modelBuilder.Entity<LuyenCocCum12>().ToTable("VHLC_Cum12");
+            //Bai Lieu
+            modelBuilder.Entity<DongCoLocBuiC1>().ToTable("DCNL_LocBuiC1");
+            modelBuilder.Entity<DongCoLocBuiC2>().ToTable("DCNL_LocBuiC2");
+            modelBuilder.Entity<DongCoLocBuiC3>().ToTable("DCNL_LocBuiC3");
+            modelBuilder.Entity<DongCoLocBuiC4>().ToTable("DCNL_LocBuiC4");
+            modelBuilder.Entity<DongCoLocBuiC5>().ToTable("DCNL_LocBuiC5");
+            modelBuilder.Entity<DongCoTrungThe>().ToTable("DCNL_TrungThe");
             base.OnModelCreating(modelBuilder);
         }
 

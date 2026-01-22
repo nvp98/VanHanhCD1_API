@@ -42,6 +42,7 @@
         public Task<IEnumerable<Dictionary<string, object>>> GetSearchTimeLuyenCocQuatTuanHoan3s(DateTime from, DateTime to);
         public Task<byte[]> ExportLuyenCocQuatTuanHoan3s(DateTime from, DateTime to, string path);
 
+        public IEnumerable<Dictionary<string, object>> GetSearchTimeLuyenCocCum12(DateTime? times);
 
     }
 }

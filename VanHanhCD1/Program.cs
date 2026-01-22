@@ -17,6 +17,7 @@ builder.Services.AddScoped<IThieuKetRepository, ThieuKetRepository>();
 builder.Services.AddScoped<IPhuTroRepository, PhuTroRepository>();
 builder.Services.AddScoped<IVoiXiMangRepository, VoiXiMangRepository>();
 builder.Services.AddScoped<ILuyenCocRepository, LuyenCocRepository>();
+builder.Services.AddScoped<IBaiLieuRepository, BaiLieuRepository>();
 builder.Services.AddScoped<ExportLBDO1>();
 builder.Services.AddScoped<ExportQHCVeVien>();
 builder.Services.AddScoped<ExportLBTDVeVien>();
