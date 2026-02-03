@@ -31,5 +31,14 @@ namespace VanHanhCD1.Controllers.BaiLieu
             var result = _service.GetDongCoLocBuiC1MinValues();
             return result;
         }
+        [HttpGet("export")]
+        public async Task<IActionResult> ExportExcel([FromQuery] DateTime from, [FromQuery] DateTime to)
+        {
+            if (from >= to)
+                return BadRequest("Thời gian không hợp lệ");
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/templates/BMVH_BAILIEU_C1.xlsx");
+            var excelBytes = await _service.ExportDongCoLocBuiC1s(from, to, path);
+            return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Report_BAILIEU_C1_{from:yyyyMMdd}_{to:yyyyMMdd}.xlsx");
+        }
     }
 }

@@ -25,6 +25,12 @@ namespace VanHanhCD1.Controllers.LuyenCoc
             var result = await _service.GetSearchTimeLuyenCocQuatTuanHoan1s(from, to);
             return Ok(result);
         }
+        [HttpGet("min-value")]
+        public IEnumerable<object> GetMinValue()
+        {
+            var result = _service.GetLuyenCocLuyenCocQuatTuanHoan1MinValues();
+            return result;
+        }
         [HttpGet("export")]
         public async Task<IActionResult> ExportExcel([FromQuery] DateTime from, [FromQuery] DateTime to)
         {

@@ -68,6 +68,11 @@ namespace VanHanhCD1.Models
         public DbSet<LuyenCocQuatTuanHoan2> luyenCocQuatTuanHoan2s { get; set; }
         public DbSet<LuyenCocQuatTuanHoan3> luyenCocQuatTuanHoan3s { get; set; }
         public DbSet<LuyenCocCum12> luyenCocCum12s { get; set; }
+        public DbSet<LuyenCocCum34> luyenCocCum34s { get; set; }
+        public DbSet<LuyenCocCum56> luyenCocCum56s { get; set; }
+        public DbSet<LuyenCocCum78> luyenCocCum78s { get; set; }
+        public DbSet<LuyenCocCum910> luyenCocCum910s { get; set; }
+
         //End Luyen Coc
 
         //Bai Lieu
@@ -134,6 +139,10 @@ namespace VanHanhCD1.Models
             modelBuilder.Entity<LuyenCocQuatTuanHoan2>().ToTable("VHLC_QGTH2");
             modelBuilder.Entity<LuyenCocQuatTuanHoan3>().ToTable("VHLC_QGTH3");
             modelBuilder.Entity<LuyenCocCum12>().ToTable("VHLC_Cum12");
+            modelBuilder.Entity<LuyenCocCum34>().ToTable("VHLC_Cum34");
+            modelBuilder.Entity<LuyenCocCum56>().ToTable("VHLC_Cum5");
+            modelBuilder.Entity<LuyenCocCum78>().ToTable("VHLC_Cum78");
+            modelBuilder.Entity<LuyenCocCum910>().ToTable("VHLC_Cum910");
             //Bai Lieu
             modelBuilder.Entity<DongCoLocBuiC1>().ToTable("DCNL_LocBuiC1");
             modelBuilder.Entity<DongCoLocBuiC2>().ToTable("DCNL_LocBuiC2");

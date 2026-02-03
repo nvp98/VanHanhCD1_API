@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using VanHanhCD1.ExportExcel;
 using VanHanhCD1.Models;
 using VanHanhCD1.Models.BaiLieu;
 using VanHanhCD1.Repository.Interfaces;
@@ -8,9 +9,12 @@ namespace VanHanhCD1.Repository.Repositories
     public class BaiLieuRepository : IBaiLieuRepository
     {
         private readonly AppDbContext _context;
-        public BaiLieuRepository(AppDbContext context)
+        private readonly ExportBaiLieuLBMTC _exportBaiLieuLBMTC;
+        public BaiLieuRepository(AppDbContext context, ExportBaiLieuLBMTC exportBaiLieuLBMTC)
         {
             _context = context;
+            _exportBaiLieuLBMTC = exportBaiLieuLBMTC;
+
         }
         private async Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursDataAsync<T>(
         DbSet<T> dbSet) where T : class, IBaiLieu
@@ -99,9 +103,26 @@ namespace VanHanhCD1.Repository.Repositories
         {
             return SearchByTimeRange(_context.dongCoLocBuiC1s, from, to);
         }
-        public Task<byte[]> ExportDongCoLocBuiC1s(DateTime from, DateTime to, string path)
+        public async Task<byte[]> ExportDongCoLocBuiC1s(DateTime from, DateTime to, string path)
         {
-            throw new NotImplementedException();
+            var dataInRange = await _context.dongCoLocBuiC1s
+                .Where(x => x.ThoiGian >= from && x.ThoiGian <= to)
+                .ToListAsync();
+            var grouped = dataInRange
+                .GroupBy(x => new { x.ThoiGian.Date, x.ThoiGian.Hour, x.TagName })
+                .Select(g => g.OrderByDescending(x => x.ThoiGian).First())
+                .ToList();
+            var exvelBytes = _exportBaiLieuLBMTC.GenerateExcelFile(
+                grouped,
+                path,
+                from,
+                to,
+                x => x.ThoiGian,
+                x => x.TagName,
+                x => x.GiaTri,
+                x => x.TagName
+                );
+            return exvelBytes;
         }
         public IEnumerable<DongCoLocBuiC1> GetDongCoLocBuiC1MinValues()
         {
@@ -119,9 +140,26 @@ namespace VanHanhCD1.Repository.Repositories
         {
             return SearchByTimeRange(_context.dongCoLocBuiC2s, from, to);
         }
-        public Task<byte[]> ExportDongCoLocBuiC2s(DateTime from, DateTime to, string path)
+        public async Task<byte[]> ExportDongCoLocBuiC2s(DateTime from, DateTime to, string path)
         {
-            throw new NotImplementedException();
+            var dataInRange = await _context.dongCoLocBuiC2s
+                .Where(x => x.ThoiGian >= from && x.ThoiGian <= to)
+                .ToListAsync();
+            var grouped = dataInRange
+                .GroupBy(x => new { x.ThoiGian.Date, x.ThoiGian.Hour, x.TagName })
+                .Select(g => g.OrderByDescending(x => x.ThoiGian).First())
+                .ToList();
+            var exvelBytes = _exportBaiLieuLBMTC.GenerateExcelFile(
+                grouped,
+                path,
+                from,
+                to,
+                x => x.ThoiGian,
+                x => x.TagName,
+                x => x.GiaTri,
+                x => x.TagName
+                );
+            return exvelBytes;
         }
         public IEnumerable<DongCoLocBuiC2> GetDongCoLocBuiC2MinValues()
         {
@@ -140,9 +178,26 @@ namespace VanHanhCD1.Repository.Repositories
         {
             return SearchByTimeRange(_context.dongCoLocBuiC3s, from, to);
         }
-        public Task<byte[]> ExportDongCoLocBuiC3s(DateTime from, DateTime to, string path)
+        public async Task<byte[]> ExportDongCoLocBuiC3s(DateTime from, DateTime to, string path)
         {
-            throw new NotImplementedException();
+            var dataInRange = await _context.dongCoLocBuiC3s
+                .Where(x => x.ThoiGian >= from && x.ThoiGian <= to)
+                .ToListAsync();
+            var grouped = dataInRange
+                .GroupBy(x => new { x.ThoiGian.Date, x.ThoiGian.Hour, x.TagName })
+                .Select(g => g.OrderByDescending(x => x.ThoiGian).First())
+                .ToList();
+            var exvelBytes = _exportBaiLieuLBMTC.GenerateExcelFile(
+                grouped,
+                path,
+                from,
+                to,
+                x => x.ThoiGian,
+                x => x.TagName,
+                x => x.GiaTri,
+                x => x.TagName
+                );
+            return exvelBytes;
         }
         public IEnumerable<DongCoLocBuiC3> GetDongCoLocBuiC3MinValues()
         {
@@ -160,9 +215,26 @@ namespace VanHanhCD1.Repository.Repositories
         {
             return SearchByTimeRange(_context.dongCoLocBuiC4s, from, to);
         }
-        public Task<byte[]> ExportDongCoLocBuiC4s(DateTime from, DateTime to, string path)
+        public async Task<byte[]> ExportDongCoLocBuiC4s(DateTime from, DateTime to, string path)
         {
-            throw new NotImplementedException();
+            var dataInRange = await _context.dongCoLocBuiC4s
+                .Where(x => x.ThoiGian >= from && x.ThoiGian <= to)
+                .ToListAsync();
+            var grouped = dataInRange
+                .GroupBy(x => new { x.ThoiGian.Date, x.ThoiGian.Hour, x.TagName })
+                .Select(g => g.OrderByDescending(x => x.ThoiGian).First())
+                .ToList();
+            var exvelBytes = _exportBaiLieuLBMTC.GenerateExcelFile(
+                grouped,
+                path,
+                from,
+                to,
+                x => x.ThoiGian,
+                x => x.TagName,
+                x => x.GiaTri,
+                x => x.TagName
+                );
+            return exvelBytes;
         }
         public IEnumerable<DongCoLocBuiC4> GetDongCoLocBuiC4MinValues()
         {
@@ -180,9 +252,26 @@ namespace VanHanhCD1.Repository.Repositories
         {
             return SearchByTimeRange(_context.dongCoLocBuiC5s, from, to);
         }
-        public Task<byte[]> ExportDongCoLocBuiC5s(DateTime from, DateTime to, string path)
+        public async Task<byte[]> ExportDongCoLocBuiC5s(DateTime from, DateTime to, string path)
         {
-            throw new NotImplementedException();
+            var dataInRange = await _context.dongCoLocBuiC5s
+                .Where(x => x.ThoiGian >= from && x.ThoiGian <= to)
+                .ToListAsync();
+            var grouped = dataInRange
+                .GroupBy(x => new { x.ThoiGian.Date, x.ThoiGian.Hour, x.TagName })
+                .Select(g => g.OrderByDescending(x => x.ThoiGian).First())
+                .ToList();
+            var exvelBytes = _exportBaiLieuLBMTC.GenerateExcelFile(
+                grouped,
+                path,
+                from,
+                to,
+                x => x.ThoiGian,
+                x => x.TagName,
+                x => x.GiaTri,
+                x => x.TagName
+                );
+            return exvelBytes;
         }
         public IEnumerable<DongCoLocBuiC5> GetDongCoLocBuiC5MinValues()
         {

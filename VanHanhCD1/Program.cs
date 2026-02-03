@@ -36,6 +36,7 @@ builder.Services.AddScoped<ExportLuyenCocMayNghien>();
 builder.Services.AddScoped<ExportLuyenCocQGTH>();
 builder.Services.AddScoped<ExportLuyenCocLBMTMD>();
 builder.Services.AddScoped<ExportLuyenCocLocBuiNhaSang>();
+builder.Services.AddScoped<ExportBaiLieuLBMTC>();
 
 builder.Services.AddGlobalExceptionHandling();
 

@@ -25,6 +25,13 @@ namespace VanHanhCD1.Controllers.LuyenCoc
             var result = await _service.GetSearchTimeLuyenCocLocBuiMoiTruongMatDat1s(from, to);
             return Ok(result);
         }
+        [HttpGet("min-value")]
+        public IEnumerable<object> GetMinValue()
+        {
+            var result = _service.GetLuyenCocLocBuiMoiTruongMatDat1MinValues();
+            return result;
+        }
+
         [HttpGet("export")]
         public async Task<IActionResult> ExportExcel([FromQuery] DateTime from, [FromQuery] DateTime to)
         {
@@ -34,5 +41,6 @@ namespace VanHanhCD1.Controllers.LuyenCoc
             var excelBytes = await _service.ExportLuyenCocLocBuiMoiTruongMatDat1s(from, to, path);
             return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Report_LUYENCOC_LBMT1_{from:yyyyMMdd}_{to:yyyyMMdd}.xlsx");
         }
+
     }
 }
