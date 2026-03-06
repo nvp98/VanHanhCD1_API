@@ -298,8 +298,33 @@ namespace VanHanhCD1.Repository.Repositories
             return _context.dongCoTrungThes
                 .FromSqlRaw("GET3Month_MinValue @TableName='DCNL_TrungThe'");
         }
+
         //End Trung The
 
+        //Che bien
+
+        public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursDongCoCheBiens()
+        {
+            return GetLast24HoursDataAsync(_context.dongCoCheBiens);
+        }
+
+        public Task<IEnumerable<Dictionary<string, object>>> GetSearchTimeDongCoCheBiens(DateTime from, DateTime to)
+        {
+            return SearchByTimeRange(_context.dongCoCheBiens, from, to);
+        }
+
+        public Task<byte[]> ExportDongCoCheBiens(DateTime from, DateTime to, string path)
+        {
+            throw new NotImplementedException();
+        } 
+
+        public IEnumerable<DongCoCheBien> GetDongCoCheBienMinValues()
+        {
+            return _context.dongCoCheBiens
+                .FromSqlRaw("GET3Month_MinValue @TableName='VHCB_S95'");
+        }
+
+        //End Che bien
 
 
 

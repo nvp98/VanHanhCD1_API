@@ -34,5 +34,10 @@ namespace VanHanhCD1.Repository.Interfaces
         public Task<IEnumerable<Dictionary<string, object>>> GetSearchTimeDongCoTrungThes(DateTime from, DateTime to);
         public Task<byte[]> ExportDongCoTrungThes(DateTime from, DateTime to, string path);
         public IEnumerable<DongCoTrungThe> GetDongCoTrungTheMinValues();
+
+        public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursDongCoCheBiens();
+        public Task<IEnumerable<Dictionary<string, object>>> GetSearchTimeDongCoCheBiens(DateTime from, DateTime to);
+        public Task<byte[]> ExportDongCoCheBiens(DateTime from, DateTime to, string path);
+        public IEnumerable<DongCoCheBien> GetDongCoCheBienMinValues();
     }
 }
