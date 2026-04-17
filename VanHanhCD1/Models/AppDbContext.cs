@@ -83,6 +83,8 @@ namespace VanHanhCD1.Models
         public DbSet<DongCoLocBuiC4> dongCoLocBuiC4s { get; set; }
         public DbSet<DongCoLocBuiC5> dongCoLocBuiC5s { get; set; }
         public DbSet<DongCoCheBien> dongCoCheBiens { get; set; }
+
+        public DbSet<WarningHistory> warningHistories { get; set; }
         //End Bai Lieu
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -152,6 +154,8 @@ namespace VanHanhCD1.Models
             modelBuilder.Entity<DongCoLocBuiC5>().ToTable("DCNL_LocBuiC5");
             modelBuilder.Entity<DongCoTrungThe>().ToTable("DCNL_TrungThe");
             modelBuilder.Entity<DongCoCheBien>().ToTable("VHCB_S95");
+
+            modelBuilder.Entity<WarningHistory>().ToTable("WarningHistory");
             base.OnModelCreating(modelBuilder);
         }
 
