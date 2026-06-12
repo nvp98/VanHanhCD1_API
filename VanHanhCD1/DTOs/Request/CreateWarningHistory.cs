@@ -9,5 +9,6 @@
         public double GiaTri {  get; set; }
         public int TrangThai { get; set; }
         public string DonVi {  get; set; }
+        public string Xuong { get; set; }
     }
 }

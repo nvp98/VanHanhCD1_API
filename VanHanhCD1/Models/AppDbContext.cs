@@ -82,6 +82,8 @@ namespace VanHanhCD1.Models
         public DbSet<DongCoLocBuiC3> dongCoLocBuiC3s { get; set; }
         public DbSet<DongCoLocBuiC4> dongCoLocBuiC4s { get; set; }
         public DbSet<DongCoLocBuiC5> dongCoLocBuiC5s { get; set; }
+        public DbSet<MBABaiLieu> mbaBaiLieus { get; set; }
+        public DbSet<TuDienBaiLieu> tuDienBaiLieus { get; set; }
         public DbSet<DongCoCheBien> dongCoCheBiens { get; set; }
 
         public DbSet<WarningHistory> warningHistories { get; set; }
@@ -153,6 +155,8 @@ namespace VanHanhCD1.Models
             modelBuilder.Entity<DongCoLocBuiC4>().ToTable("DCNL_LocBuiC4");
             modelBuilder.Entity<DongCoLocBuiC5>().ToTable("DCNL_LocBuiC5");
             modelBuilder.Entity<DongCoTrungThe>().ToTable("DCNL_TrungThe");
+            modelBuilder.Entity<MBABaiLieu>().ToTable("MBA_NMNL");
+            modelBuilder.Entity<TuDienBaiLieu>().ToTable("TUDIEN_TT_NMNL");
             modelBuilder.Entity<DongCoCheBien>().ToTable("VHCB_S95");
 
             modelBuilder.Entity<WarningHistory>().ToTable("WarningHistory");

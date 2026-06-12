@@ -17,23 +17,111 @@ namespace VanHanhCD1.Controllers
             _context = context;
         }
 
-        [HttpGet("warning")]
-        public async Task<IActionResult> GetWarningHistories()
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchWarningHistories(
+                [FromQuery] string category,
+                [FromQuery] int pageNumber = 1,
+                [FromQuery] int pageSize = 30)
         {
-            var warningHistories = await _context.warningHistories
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                return BadRequest("Category is required.");
+            }
+
+            // Query cơ bản
+            var search = _context.warningHistories
+                .AsNoTracking()
+                .Where(w => w.Xuong == category);
+
+            // Tổng số bản ghi theo category
+            var totalRecords = await search.CountAsync();
+
+            if (totalRecords == 0)
+            {
+                return NotFound(new
+                {
+                    message = "Không tìm thấy lịch sử cảnh báo."
+                });
+            }
+
+            // Lấy dữ liệu phân trang
+            var warningHistories = await search
+                .OrderByDescending(w => w.ThoiGian)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .Select(w => new
                 {
                     thoiGian = w.ThoiGian,
                     tagName = w.TagName,
                     khuVuc = w.KhuVuc,
-                    tenThongSo = w.TenThongSo,  
+                    tenThongSo = w.TenThongSo,
                     donVi = w.DonVi,
                     giaTri = w.GiaTri,
                     trangThai = w.TrangThai,
+                    xuong = w.Xuong
                 })
-                .OrderByDescending(w => w.thoiGian)
                 .ToListAsync();
-            return Ok(warningHistories);
+
+            var totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+
+            return Ok(new
+            {
+                data = warningHistories,
+                pagination = new
+                {
+                    pageNumber,
+                    pageSize,
+                    totalRecords,
+                    totalPages
+                }
+            });
+        }
+
+        [HttpGet("pagination")]
+        public async Task<IActionResult> PaginationWarningHistories(
+                [FromQuery] int pageNumber = 1,
+                [FromQuery] int pageSize = 30)
+        {
+
+            var totalRecords = await _context.warningHistories.AsNoTracking().CountAsync();
+            if (totalRecords == 0)
+            {
+                return NotFound(new
+                {
+                    message = "Không tìm thấy lịch sử cảnh báo."
+                });
+            }
+            // Lấy dữ liệu phân trang
+            var warningHistories = await _context.warningHistories
+                .OrderByDescending(w => w.ThoiGian)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(w => new
+                {
+                    thoiGian = w.ThoiGian,
+                    tagName = w.TagName,
+                    khuVuc = w.KhuVuc,
+                    tenThongSo = w.TenThongSo,
+                    donVi = w.DonVi,
+                    giaTri = w.GiaTri,
+                    trangThai = w.TrangThai,
+                    xuong = w.Xuong ?? "",
+                })
+                .ToListAsync();
+           
+            var totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+
+            return Ok(new
+            {
+                data = warningHistories,
+                pagination = new
+                {
+                    pageNumber,
+                    pageSize,
+                    totalRecords,
+                    totalPages
+                }
+            });
         }
 
 
@@ -48,7 +136,8 @@ namespace VanHanhCD1.Controllers
                 TenThongSo = request.TenThongSo,
                 GiaTri = request.GiaTri,
                 TrangThai = request.TrangThai,
-                DonVi = request.DonVi
+                DonVi = request.DonVi,
+                Xuong = request.Xuong
             };
 
             try

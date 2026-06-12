@@ -301,6 +301,42 @@ namespace VanHanhCD1.Repository.Repositories
 
         //End Trung The
 
+        //MBA Bai Lieu
+        public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursMBABaiLieus()
+        {
+            return GetLast24HoursDataAsync(_context.mbaBaiLieus);
+        }
+
+        public Task<IEnumerable<Dictionary<string, object>>> GetSearchTimeMBABaiLieus(DateTime from, DateTime to)
+        {
+            return SearchByTimeRange(_context.mbaBaiLieus, from, to);
+        }
+
+        public IEnumerable<MBABaiLieu> GetMBABaiLieuMinValues()
+        {
+            return _context.mbaBaiLieus
+                .FromSqlRaw("GET3Month_MinValue @TableName='MBA_NMNL'");
+        }
+        //End Bai Lieu
+
+        // Tu Dien Bai Lieu
+        public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursTuDienBaiLieus()
+        {
+            return GetLast24HoursDataAsync(_context.tuDienBaiLieus);
+        }
+
+        public Task<IEnumerable<Dictionary<string, object>>> GetSearchTimeTuDienBaiLieus(DateTime from, DateTime to)
+        {
+            return SearchByTimeRange(_context.tuDienBaiLieus, from, to);
+        }
+
+        public IEnumerable<TuDienBaiLieu> GetTuDienBaiLieusMinValues()
+        {
+            return _context.tuDienBaiLieus
+                .FromSqlRaw("GET3Month_MinValue @TableName='TUDIEN_TT_NMNL'");
+        }
+        // Tu Dien Bai Lieu End
+
         //Che bien
 
         public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursDongCoCheBiens()
@@ -323,6 +359,10 @@ namespace VanHanhCD1.Repository.Repositories
             return _context.dongCoCheBiens
                 .FromSqlRaw("GET3Month_MinValue @TableName='VHCB_S95'");
         }
+
+        
+
+
 
         //End Che bien
 

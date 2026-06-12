@@ -1,4 +1,5 @@
-﻿using VanHanhCD1.Models.BaiLieu;
+﻿using System.Runtime.InteropServices;
+using VanHanhCD1.Models.BaiLieu;
 using VanHanhCD1.Models.ThieuKet;
 
 namespace VanHanhCD1.Repository.Interfaces
@@ -34,6 +35,14 @@ namespace VanHanhCD1.Repository.Interfaces
         public Task<IEnumerable<Dictionary<string, object>>> GetSearchTimeDongCoTrungThes(DateTime from, DateTime to);
         public Task<byte[]> ExportDongCoTrungThes(DateTime from, DateTime to, string path);
         public IEnumerable<DongCoTrungThe> GetDongCoTrungTheMinValues();
+
+        public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursMBABaiLieus();
+        public Task<IEnumerable<Dictionary<string, object>>> GetSearchTimeMBABaiLieus(DateTime from, DateTime to);
+        public IEnumerable<MBABaiLieu> GetMBABaiLieuMinValues();
+
+        public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursTuDienBaiLieus();
+        public Task<IEnumerable<Dictionary<string, object>>> GetSearchTimeTuDienBaiLieus(DateTime from, DateTime to);
+        public IEnumerable<TuDienBaiLieu> GetTuDienBaiLieusMinValues();
 
         public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursDongCoCheBiens();
         public Task<IEnumerable<Dictionary<string, object>>> GetSearchTimeDongCoCheBiens(DateTime from, DateTime to);
