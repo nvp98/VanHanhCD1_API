@@ -1,4 +1,7 @@
-﻿namespace VanHanhCD1.Repository.Interfaces
+﻿using VanHanhCD1.Models.ThieuKet;
+using VanHanhCD1.Models.VoiXiMang;
+
+namespace VanHanhCD1.Repository.Interfaces
 {
     public interface IVoiXiMangRepository
     {
@@ -25,5 +28,9 @@
         public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursLoVoiQuay();
         public Task<IEnumerable<Dictionary<string, object>>> GetSearchTimeLoVoiQuay(DateTime from, DateTime to);
         public Task<byte[]> ExportLoVoiQuay(DateTime from, DateTime to, string path);
+
+        public Task<IEnumerable<Dictionary<string, object>>> GetLast24HoursDongCoVoiXiMang();
+        public Task<IEnumerable<Dictionary<string, object>>> GetSearchTimeDongCoVoiXiMang(DateTime from, DateTime to);
+        public IEnumerable<DongCoVoiXiMang> GetDongCoVoiXiMangMinValues();
     }
 }

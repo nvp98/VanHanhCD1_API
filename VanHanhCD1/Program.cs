@@ -16,16 +16,27 @@ builder.Services.AddScoped<IVeVienRepository, VeVienRepository>();
 builder.Services.AddScoped<IThieuKetRepository, ThieuKetRepository>();
 builder.Services.AddScoped<IPhuTroRepository, PhuTroRepository>();
 builder.Services.AddScoped<IVoiXiMangRepository, VoiXiMangRepository>();
+builder.Services.AddScoped<ILuyenCocRepository, LuyenCocRepository>();
+builder.Services.AddScoped<IBaiLieuRepository, BaiLieuRepository>();
 builder.Services.AddScoped<ExportLBDO1>();
 builder.Services.AddScoped<ExportQHCVeVien>();
 builder.Services.AddScoped<ExportLBTDVeVien>();
 builder.Services.AddScoped<ExportLBMTPLieuBLuocVeVien>();
+builder.Services.AddScoped<ExportLBMT>();
 builder.Services.AddScoped<ExportThieuKet>();
 builder.Services.AddScoped<ExportQuatGio>();
 builder.Services.AddScoped<ExportTurbine>();
 builder.Services.AddScoped<ExportNoiHoiMatVongMot>();
 builder.Services.AddScoped<ExportKhuKhiKhoi>();
+builder.Services.AddScoped<ExportTramNuocTuanHoan>();
+builder.Services.AddScoped<ExportLoVoiQuay>();
 builder.Services.AddScoped<ExportVoiXiMang>();
+builder.Services.AddScoped<ExportLuyenCocCDQ>();
+builder.Services.AddScoped<ExportLuyenCocMayNghien>();
+builder.Services.AddScoped<ExportLuyenCocQGTH>();
+builder.Services.AddScoped<ExportLuyenCocLBMTMD>();
+builder.Services.AddScoped<ExportLuyenCocLocBuiNhaSang>();
+builder.Services.AddScoped<ExportBaiLieuLBMTC>();
 
 builder.Services.AddGlobalExceptionHandling();
 

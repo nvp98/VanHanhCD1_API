@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VanHanhCD1.Models.PhuTro
 {
-    [Table("VH_TB4ThieuKet2")]
+    [Table("VH_TB2ThieuKet1")]
     public class Turbine2ThieuKet1 : IPhuTro
     {
         [Key]

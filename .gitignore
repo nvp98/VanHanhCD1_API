@@ -39,3 +39,4 @@ dist/
 *.tar.gz
 *.7z
 *.rar
+VanHanhCD1/appsettings.Development.json

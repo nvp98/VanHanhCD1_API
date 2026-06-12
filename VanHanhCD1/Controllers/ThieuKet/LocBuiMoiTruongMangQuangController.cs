@@ -19,6 +19,12 @@ namespace VanHanhCD1.Controllers.ThieuKet
             var result = await _service.GetLast24HoursLocBuiMoiTruongMangQuangs();
             return Ok(result);
         }
+        [HttpGet("min-value")]
+        public IEnumerable<object> GetMinValue()
+        {
+            var result = _service.GetLocBuiMoiTruongMangQuangMinValues();
+            return result;
+        }
         [HttpGet("search")]
         public async Task<IActionResult> SearchByTimeRangeLocBuiMoiTruongMangQuangs([FromQuery] DateTime from, [FromQuery] DateTime to)
         {

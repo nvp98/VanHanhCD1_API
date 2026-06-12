@@ -23,6 +23,8 @@ namespace VanHanhCD1.Controllers.VeVien
             return Ok(result);
         }
 
+
+
         [HttpGet("search")]
         public async Task<IActionResult> SearchByTimeRangeLocBuiTinhDien([FromQuery] DateTime from, [FromQuery] DateTime to)
         {

@@ -25,6 +25,12 @@ namespace VanHanhCD1.Controllers.PhuTro
             var result = await _service.GetSearchTimeNoiHoiOngKhoiQuatGioLamMatVongHais(from, to);
             return Ok(result);
         }
+        [HttpGet("min-value")]
+        public IEnumerable<object> GetMinValue()
+        {
+            var result = _service.GetNoiHoiOngKhoiQuatGioLamMatVongHaiMinValues();
+            return result;
+        }
         [HttpGet("export")]
         public async Task<IActionResult> ExportExcel([FromQuery] DateTime from, [FromQuery] DateTime to)
         {
